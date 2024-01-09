@@ -1,6 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 
 module.exports = (sequelize, DataTypes) => {
@@ -15,19 +15,19 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    date: {
+    userName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: 'Please provide a value for user name',
+          msg: 'Please provide a value for username',
         },
         notNull: {
           msg: 'Please provide a value for username',
         }
       }
     },
-    savings: {
+    emailAddress: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: {
@@ -37,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: {
             msg: 'Please provide a value for "email address"',
           },
+          
           isEmail:{
             msg: "Please provide a valid email address"
           }, notEmpty: {
@@ -44,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       },
-      homeEquity: {
+      password: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
@@ -52,10 +53,14 @@ module.exports = (sequelize, DataTypes) => {
             msg: 'Please provide a value for "password"',
           }
         },
-    
+        set(val) {
+      if (val) {
+        const hashedPassword = bcrypt.hashSync(val, 10);
+        this.setDataValue('password', hashedPassword);
+      }
+      },
       },
   }, { sequelize });
-    
     Account.associate = (models) => {
       Account.hasMany(models.Asset, {
         foreignKey: {
@@ -63,6 +68,12 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
         },
       });
+      Account.hasMany(models.Liability, {
+        foreignKey: {
+          fieldName: 'accountId',
+          allowNull: false,
+        },
+      });
     };
-  return User;
+  return Account;
 };

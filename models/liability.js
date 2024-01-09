@@ -17,7 +17,7 @@ Liability.init({
     },
 
     date: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
         notEmpty: {
@@ -29,9 +29,6 @@ Liability.init({
       type: DataTypes.INTEGER,
       allowNull: true,
       validate: {
-        notEmpty: {
-          msg: 'Please provide a value for "description"',
-        },
         notEmpty: {
           msg: 'Please provide a value for "description"',
         }

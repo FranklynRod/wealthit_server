@@ -17,14 +17,11 @@ Asset.init({
     },
 
     date: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DATE,
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: 'Please provide a value for "title"',
-        },
-        notEmpty: {
-          msg: 'Please provide a value for "title"',
+          msg: 'Please provide a value for date',
         }
       }
     },
@@ -33,22 +30,22 @@ Asset.init({
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: 'Please provide a value for "description"',
-        },
-        notEmpty: {
-          msg: 'Please provide a value for "description"',
+          msg: 'Please provide a value for saving',
         }
       }
     },
     homeEquity: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       investments: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-     
+      other: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
   }, {sequelize});
 
 Asset.associate = (models) => {
