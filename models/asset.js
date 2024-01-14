@@ -1,6 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
 
+
 module.exports = (sequelize, DataTypes) => {
   class Asset extends Model {
 
@@ -15,7 +16,6 @@ Asset.init({
       autoIncrement: true,
       allowNull: false,
     },
-
     date: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -51,7 +51,7 @@ Asset.init({
 Asset.associate = (models) => {
     Asset.belongsTo(models.Account,{
     foreignKey: {
-      fieldName: 'accountId',
+      fieldName: 'id',
       allowNull: false,
     },});
     

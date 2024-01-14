@@ -17,7 +17,7 @@ Liability.init({
     },
 
     date: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: false,
       validate: {
         notEmpty: {
@@ -39,6 +39,10 @@ Liability.init({
         allowNull: true,
       },
     homeLoan: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      other: {
         type: DataTypes.INTEGER,
         allowNull: true,
       },

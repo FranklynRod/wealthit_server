@@ -2,6 +2,7 @@
 
 const { sequelize, Account, Asset, Liability, Networth } = require('./models');
 const Router = require('./routes');
+const sqlite3 = require('sqlite3').verbose();
 
 // load modules
 const express = require('express');
@@ -12,6 +13,32 @@ const morgan = require('morgan');
 const app = express();
 
 app.use(express.json());
+
+//Creating DB
+let db = new sqlite3.Database(':memory:', sqlite3.OPEN_READWRITE, (err) => {
+  if (err) {
+    console.error(err.message);
+  }
+  console.log('Connected to the database.');
+});
+
+db.serialize(() => {
+  db.each(`SELECT PlaylistId as id,
+                  Name as name
+           FROM playlists`, (err, row) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log(row.id + "\t" + row.name);
+  });
+});
+
+db.close((err) => {
+  if (err) {
+    console.error(err.message);
+  }
+  console.log('Close the database connection.');
+});
 
 //CORS connection which allows server to indicate origins
 // app.use(cors())
@@ -41,7 +68,7 @@ console.log('Testing the connection to the database...');
 (async () => {
   try {
     // Test the connection to the database
-    await sequelize.authenticate();
+    const auth = await sequelize.authenticate();
     console.log('Connection to the database successful!');
     // Sync the models
     console.log('Synchronizing the models with the database...');
