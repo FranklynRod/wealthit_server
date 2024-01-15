@@ -5,7 +5,6 @@ const Account = require('./models').Account;
 const Liability = require('./models').Liability;
 const Asset =  require('./models').Asset;
 
-
 //Async Handler is a helper function to handle errors
 function asyncHandler(cb){
     return async(req,res,next) =>{
@@ -70,7 +69,6 @@ router.get('account/:account-id/liability/:liability-id',asyncHandler(async(req,
 
 //DELETE existing AssetID
 router.delete('account/:account-id/asset/:asset-id', asyncHandler(async( req, res, next) => {
-    try{
       const asset = await Asset.findByPk(req.params.id);
     //   if (asset.id !== req.currentUser.id){
     //     const error = new Error("You are not authorized to delete this course");
@@ -81,15 +79,15 @@ router.delete('account/:account-id/asset/:asset-id', asyncHandler(async( req, re
         await asset.destroy();
         res.status(204).end()
       } else{
-        const error = new Error("The liability you're trying to find doesn't exist");
+        const error = new Error("The asset you're trying to find doesn't exist");
         error.status = 404;
         next(error);
       }
-    }
+    
   }));
+
 //DELETE existing LiabilityID
 router.delete('account/:id/liability/:liability-id', asyncHandler(async( req, res, next) => {
-    try{
       const liability = await Liability.findByPk(req.params.id);
     //   if (asset.id !== req.currentUser.id){
     //     const error = new Error("You are not authorized to delete this course");
@@ -104,12 +102,10 @@ router.delete('account/:id/liability/:liability-id', asyncHandler(async( req, re
         error.status = 404;
         next(error);
       }
-    }
   }));
 
 //UPDATE Existing AssetID
 router.put('account/:account-id/asset/:asset-id', asyncHandler(async( req, res) => {
-    try{
         const asset = await Asset.findByPk(req.params.id);
     //   if (course.userId !== req.currentUser.id){
     //     const error = new Error("You are not authorized to update this course");
@@ -125,10 +121,10 @@ router.put('account/:account-id/asset/:asset-id', asyncHandler(async( req, res) 
         next(error);
       }
     } 
-  }));
+  ));
+
 //UPDATE Existing LiabilityID
 router.put('account/:id/liability/:liability-id', asyncHandler(async( req, res) => {
-    try{
         const liability = await Liability.findByPk(req.params.id);
     //   if (course.userId !== req.currentUser.id){
     //     const error = new Error("You are not authorized to update this course");
@@ -144,7 +140,7 @@ router.put('account/:id/liability/:liability-id', asyncHandler(async( req, res) 
         next(error);
       }
     } 
-  }));
+  ));
 
 //CREATE New AccountID
 router.post('account/:account-id', asyncHandler(async (req, res) => {
@@ -211,3 +207,5 @@ router.post('account/:account-id/liability/:liability-id', asyncHandler(async (r
       } 
     }
   }));
+
+  module.exports = router;

@@ -1,7 +1,7 @@
 'use strict';
 
 const { sequelize, Account, Asset, Liability, Networth } = require('./models');
-const Router = require('./routes');
+const Router = require('./routes.js');
 const sqlite3 = require('sqlite3').verbose();
 
 // load modules
@@ -15,22 +15,11 @@ const app = express();
 app.use(express.json());
 
 //Creating DB
-let db = new sqlite3.Database(':memory:', sqlite3.OPEN_READWRITE, (err) => {
+let db = new sqlite3.Database('./wealthit.db', sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
     console.error(err.message);
   }
   console.log('Connected to the database.');
-});
-
-db.serialize(() => {
-  db.each(`SELECT PlaylistId as id,
-                  Name as name
-           FROM playlists`, (err, row) => {
-    if (err) {
-      console.error(err.message);
-    }
-    console.log(row.id + "\t" + row.name);
-  });
 });
 
 db.close((err) => {
