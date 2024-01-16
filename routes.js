@@ -35,6 +35,7 @@ router.get('/account/:id', asyncHandler(async(req, res, next) => {
 
 //GET AssetID
 router.get('account/:account-id/asset/:asset-id', asyncHandler(async(req, res, next) => {
+    //TODO:Will add function get current logged in user
     const asset = await Asset.findByPk(req.params.id ,{
       include: {
         model: Asset,
